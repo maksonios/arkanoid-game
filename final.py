@@ -7,8 +7,24 @@ import random
 
 WIDTH = 600
 HEIGHT = 800
-
 obstacles_list = []
+
+game_over = False
+playerLives = 3
+points = 0
+
+
+def place_obstacles(x, y, image):
+    for x in range(x, x + 8 * 70, 70):
+        obstacles_list.append(Obstacle(image, x, y))
+
+
+coloured_box_list = ["element_green_rectangle_glossy.png", "ball_obstacle.png"]
+x = 50
+y = 120
+for coloured_box in coloured_box_list:
+    place_obstacles(x, y, coloured_box)
+    y += 80
 
 
 class Paddle(Actor):
@@ -23,6 +39,9 @@ class Paddle(Actor):
 
     def is_collided(self, ball):
         return self.colliderect(ball)
+
+
+paddle = Paddle()
 
 
 class Ball(Actor):
@@ -43,6 +62,9 @@ class Ball(Actor):
         return super().draw()
 
 
+ball = Ball()
+
+
 class Obstacle(Actor):
     def __init__(self, image, x, y):
         super().__init__(image, (x, y))
@@ -51,19 +73,8 @@ class Obstacle(Actor):
         return super().draw()
 
 
-def place_obstacles(x, y, image):
-    for x in range(x, x + 8 * 70, 70):
-        obstacles_list.append(Obstacle(image, x, y))
-
-
-paddle = Paddle()
-ball = Ball()
 ball_obstacle = Obstacle("ball_obstacle.png", 50, 120)
 rect_obstacle = Obstacle("element_green_rectangle_glossy.png", 50, 120)
-
-game_over = False
-playerLives = 3
-points = 0
 
 
 def draw():
@@ -114,12 +125,5 @@ def update():
 def on_mouse_move(pos):
     paddle.pos = (pos[0], paddle.pos[1])
 
-
-coloured_box_list = ["element_green_rectangle_glossy.png", "ball_obstacle.png"]
-x = 50
-y = 120
-#for coloured_box in coloured_box_list:
-#    place_obstacles(x, y, coloured_box)
-#    y += 80
 
 pgzrun.go()
